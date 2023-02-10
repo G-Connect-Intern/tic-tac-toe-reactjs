@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function Square({ value, onSquareClick, isHighLight }) {
+  console.log(isHighLight);
   if (isHighLight) {
     return (
-      <button className="square" onClick={onSquareClick}>
+      <button className="square highlight" onClick={onSquareClick}>
         {value}
       </button>
     )
@@ -32,28 +33,34 @@ function calculateWinner(squares) {
     const [a, b, c] = lines[i];
     // Detect 3 cell cùng bằng X hoặc cùng bằng O
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return [a, b, c];
     }
   }
   return null
 }
 
-function Board({ xIsNext, squares, onPlay, highLight }) {
-
+function Board({ xIsNext, squares, onPlay }) {
   let winner = calculateWinner(squares)
   let status;
+  let highLight = Array(9).fill(null)
+
 
   if (winner) {
-    status = `Winner: ${winner}`
+    status = `Winner: ${xIsNext ? "O" : "X"}`;
+    highLight[winner[0]] = 1
+    highLight[winner[1]] = 1
+    highLight[winner[2]] = 1
   } else {
     status = `Next player: ${xIsNext ? "X" : "O"}`
   }
 
   function handleClick(i) {
-    if (squares[i] || calculateWinner(squares)) { // Khi có winner thì disabled các cell
+  // Khi có winner thì disabled các cell
+    if (squares[i] || calculateWinner(squares)) {
       return;
     }
     const nextSquares = squares.slice();
+
     if (!nextSquares[i]) {
       nextSquares[i] = xIsNext ? "X" : "O";
     }
@@ -81,7 +88,7 @@ function Board({ xIsNext, squares, onPlay, highLight }) {
 export default function Game() {
   const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const [highLight, setHighLight] = useState([Array(9).fill(null)]);
+  const [highLight, setHighLight] = useState(Array(9).fill(null));
   const [currentMove, setCurrentMove] = useState(0)
   const [isReverseHistory, setIsReverseHistory] = useState(false);
   const currentSquares = history[currentMove];
@@ -90,6 +97,11 @@ export default function Game() {
     setHistory(nextHistory)
     setCurrentMove(nextHistory.length - 1);
     setXIsNext(!xIsNext);
+  }
+  function handleHighLight(idx) {
+    let nextHighLight = highLight.slice()
+    nextHighLight[idx] = 1
+    setHighLight(nextHighLight)
   }
   function jumpTo(nextMove) {
     setCurrentMove(nextMove)
@@ -116,7 +128,7 @@ export default function Game() {
   return (
     <div className='game'>
       <div className='game-board'>
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} highLight={highLight} />
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} highLight={highLight} onHighLight={handleHighLight} />
       </div>
       <div className='game-info'>
         <button onClick={() => reverseHistory()}>Reverse History</button>
