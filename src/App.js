@@ -18,7 +18,7 @@ function Square({ value, onSquareClick, isHighLight }) {
 }
 
 function calculateWinner(squares) {
-  // Cải biến code, có thể custom size của board game và xử lý sự kiện thắng
+  // TODO: Cải biến code, có thể custom size của board game và xử lý sự kiện thắng
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
