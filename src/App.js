@@ -45,17 +45,27 @@ function Board({ xIsNext, squares, onPlay }) {
   let highLight = Array(9).fill(null)
 
 
-  if (winner) {
-    status = `Winner: ${xIsNext ? "O" : "X"}`;
-    highLight[winner[0]] = 1
-    highLight[winner[1]] = 1
-    highLight[winner[2]] = 1
-  } else {
-    status = `Next player: ${xIsNext ? "X" : "O"}`
+  let checkedSquares = 0
+  for (let square of squares) {
+    if (square) checkedSquares++
+    else {
+      break
+    }
   }
 
+    if (winner) {
+      status = `Winner: ${xIsNext ? "O" : "X"}`;
+      highLight[winner[0]] = 1
+      highLight[winner[1]] = 1
+      highLight[winner[2]] = 1
+    } else if (checkedSquares == 9) {
+      status = `Không có người thắng cuộc!`
+    } else {
+      status = `Next player: ${xIsNext ? "X" : "O"}`
+    }
+
   function handleClick(i) {
-  // Khi có winner thì disabled các cell
+    // Khi có winner thì disabled các cell
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
