@@ -79,6 +79,7 @@ body {
 
 .status {
   margin-bottom: 10px;
+  color: white;
 }
 .game {
   display: flex;
@@ -87,7 +88,57 @@ body {
 
 .game-info {
   margin-left: 20px;
+  color: white;
+  width: 150px;
 }
 .highlight{
   color: red;
+}
+.app-container{
+  width: fit-content;
+  margin: auto;
+  background-color: #010810;
+  padding: 100px;
+
+}
+.menu-container{
+  display: flex;
+  flex-direction: column;
+}
+.outline-btn{
+  margin: auto;
+  border-radius: 20px;
+}
+.item-menu-container{
+  display: flex;
+  margin: auto;
+}
+.menu-btn{
+  width: 200px;
+  border: 4px solid #EFB636;
+  padding: 8px;
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  background-color: #2C2220;
+  border-radius: 20px;
+}
+.outline-btn{
+  border: 4px solid #483E37;
+  width: fit-content;
+  border-radius: 30px;
+}
+.menu-btn:hover{
+  background-color: #120E10;
+  cursor: pointer;
+}
+.action-btn{
+  background-color: #010810;
+  font-size: 20px;
+  color: white;
+  border: none;
+}
+.action-btn:hover{
+  cursor: pointer;
+  background-color: rgba(255,255,255,0.1);
 }
